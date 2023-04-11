@@ -15,7 +15,7 @@ const chatButtonClose = `
   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
 </svg>
 `
-// create the chat button element
+// creat the chat button element
 const chatButton = document.createElement('div')
 // apply styles to the chat button
 chatButton.setAttribute('id', 'chat-bubble-button')
@@ -85,7 +85,13 @@ chat.style.borderRadius = '10px'
 chat.style.zIndex = 999999999
 chat.style.overflow = 'hidden'
 const scriptTag = document.currentScript
+const urlBase = "https://api.chatshape.com/"
+const headers = {'Content-Type':'application/json'}
 console.log(scriptTag);
+let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
+let botID = scriptTag.id.replace(/.*?-/, "").trim();
+console.log("botID: ", botID)
+console.log("botName: ", botName)
 function init() {
 
     chat.innerHTML = `<iframe
@@ -97,10 +103,16 @@ function init() {
 
     document.body.appendChild(chat)
     const getColor = async () => {
-
-        chatButton.style.backgroundColor = "#793eee"
-        document.body.appendChild(chatButton)
-      }
+        const response = await fetch(urlBase + "getInit", {
+          headers: headers,
+          method: "POST",
+          body: JSON.stringify({"name": botName, "uuid" : botID}),
+      });
+      const string = await response.json();
+      const arr = string === "" ? [] : string;
+      chatButton.style.backgroundColor = arr[2]
+      document.body.appendChild(chatButton)
+    }
       
     getColor()
 }
@@ -126,4 +138,3 @@ mediaQuery.addEventListener('change', handleSizeChange)
 
 // Initial check
 handleSizeChange(mediaQuery)
-
