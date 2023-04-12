@@ -21,7 +21,6 @@ const chatButton = document.createElement('div')
 chatButton.setAttribute('id', 'chat-bubble-button')
 chatButton.style.position = 'fixed'
 chatButton.style.bottom = '20px'
-chatButton.style.right = '20px'
 chatButton.style.width = SIZE + 'px'
 chatButton.style.height = SIZE + 'px'
 chatButton.style.borderRadius = BTN_RAD + 'px'
@@ -75,7 +74,6 @@ chat.style.position = 'fixed'
 chat.style.flexDirection = 'column'
 chat.style.justifyContent = 'space-between'
 chat.style.bottom = '80px'
-chat.style.right = '20px'
 chat.style.width = '85vw'
 chat.style.height = '70vh'
 chat.style.boxShadow =
@@ -103,7 +101,7 @@ function init() {
 
     document.body.appendChild(chat)
     const getColor = async () => {
-        const response = await fetch(urlBase + "getInit", {
+      const response = await fetch(urlBase + "getInit", {
           headers: headers,
           method: "POST",
           body: JSON.stringify({"name": botName, "uuid" : botID}),
@@ -111,6 +109,18 @@ function init() {
       const string = await response.json();
       const arr = string === "" ? [] : string;
       chatButton.style.backgroundColor = arr[2]
+      const isLeftSide = (arr[3]);
+      if (isLeftSide) {
+        chatButton.style.left = '20px';
+        chatButton.style.right = 'unset'
+        chat.style.left = '20px';
+        chat.style.right = 'unset'
+      } else {
+        chatButton.style.right = '20px'
+        chatButton.style.left = 'unset'
+        chat.style.right = '20px'
+        chat.style.left = 'unset'
+      }
       document.body.appendChild(chatButton)
     }
       
@@ -138,3 +148,4 @@ mediaQuery.addEventListener('change', handleSizeChange)
 
 // Initial check
 handleSizeChange(mediaQuery)
+
