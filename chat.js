@@ -1,9 +1,9 @@
 
-const SIZE = 50 // size of the chat button in pixels
+const SIZE = 55 // size of the chat button in pixels
 const BTN_RAD = SIZE / 2 // radius of the chat button in pixels
 const BG_CHAT = 'purple' // background color of the chat button
 const chatButtonLogo = `
-<svg width="60" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="80" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" fill="#FFFFFF"></path>
       <circle cx="10" cy="12" r="1.3" fill="#FFFFFF"></circle>
       <circle cx="16" cy="12" r="1.3" fill="#FFFFFF"></circle>
@@ -67,6 +67,14 @@ chatButton.addEventListener('click', () => {
   }
 })
 
+function adjustForSmallScreens() {
+  const smallScreenHeight = 600;
+  if (window.innerHeight < smallScreenHeight) {
+      chat.style.height = '70vh';
+  }
+}
+
+
 const chat = document.createElement('div')
 chat.setAttribute('id', 'chat-bubble-window')
 
@@ -78,10 +86,14 @@ chat.style.width = '85vw'
 chat.style.height = '70vh'
 chat.style.boxShadow =
   'rgba(150, 150, 150, 0.15) 0px 6px 24px 0px, rgba(150, 150, 150, 0.15) 0px 0px 0px 1px'
-chat.style.display = 'none'
+// chat.style.display = 'none'
 chat.style.borderRadius = '10px'
 chat.style.zIndex = 999999999
 chat.style.overflow = 'hidden'
+window.addEventListener('resize', adjustForSmallScreens);
+
+adjustForSmallScreens();
+
 const scriptTag = document.currentScript
 const urlBase = "https://api.chatshape.com/"
 const headers = {'Content-Type':'application/json'}
