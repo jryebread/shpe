@@ -1,5 +1,5 @@
 
-const SIZE = 55 // size of the chat button in pixels
+const SIZE = 60 // size of the chat button in pixels
 const BTN_RAD = SIZE / 2 // radius of the chat button in pixels
 const BG_CHAT = 'purple' // background color of the chat button
 const chatButtonLogo = `
@@ -53,11 +53,40 @@ chatButtonIcon.innerHTML = chatButtonLogo
 
 chatButton.appendChild(chatButtonIcon)
 
-// add the chat button to the page
+// Create notification bubble element
+const notificationBubble = document.createElement('div')
+
+// Apply styles to the notification bubble
+notificationBubble.style.position = 'absolute'
+notificationBubble.style.top = '-7px'
+notificationBubble.style.right = '-1px'
+notificationBubble.style.width = '20px'
+notificationBubble.style.height = '20px'
+notificationBubble.style.borderRadius = '50%'
+notificationBubble.style.backgroundColor = 'red'
+notificationBubble.style.color = 'white'
+notificationBubble.style.display = 'flex'
+notificationBubble.style.alignItems = 'center'
+notificationBubble.style.justifyContent = 'center'
+notificationBubble.style.zIndex = 1000000000
+notificationBubble.style.fontSize = '12px'
+
+// Add "1" inside the notification bubble
+notificationBubble.innerHTML = "1"
+
+// Add the notification bubble to the chat button
+chatButton.appendChild(notificationBubble)
 
 // toggle the chat component when the chat button is clicked
+let firstClick = true
 chatButton.addEventListener('click', () => {
-  // toggle the chat component
+  // Remove the red notification on first click
+  if (firstClick) {
+    notificationBubble.style.display = 'none'
+    firstClick = false
+  }
+
+  // Toggle the chat component
   if (chat.style.display === 'none') {
     chat.style.display = 'flex'
     chatButtonIcon.innerHTML = chatButtonClose
