@@ -124,7 +124,7 @@ window.addEventListener('resize', adjustForSmallScreens);
 adjustForSmallScreens();
 
 const scriptTag = document.currentScript
-const urlBase = "https://api.chatshape.com/"
+const urlBase = "https://arm.chatshape.com/"
 const headers = {'Content-Type':'application/json'}
 console.log(scriptTag);
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
