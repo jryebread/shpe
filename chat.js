@@ -2,6 +2,7 @@
 const SIZE = 60 // size of the chat button in pixels
 const BTN_RAD = SIZE / 2 // radius of the chat button in pixels
 const BG_CHAT = 'purple' // background color of the chat button
+let arr;
 const chatButtonLogo = `
 <svg width="80" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" fill="#FFFFFF"></path>
@@ -80,6 +81,10 @@ chatButton.appendChild(notificationBubble)
 // toggle the chat component when the chat button is clicked
 let firstClick = true
 chatButton.addEventListener('click', () => {
+
+  popup.style.opacity = 0;
+  popup.style.visibility = 'hidden';
+  
   // Remove the red notification on first click
   if (firstClick) {
     notificationBubble.style.display = 'none'
@@ -99,7 +104,7 @@ chatButton.addEventListener('click', () => {
 function adjustForSmallScreens() {
   const smallScreenHeight = 600;
   if (window.innerHeight < smallScreenHeight) {
-      chat.style.height = '70vh';
+      chat.style.height = '85vh';
   }
 }
 
@@ -123,6 +128,79 @@ window.addEventListener('resize', adjustForSmallScreens);
 
 adjustForSmallScreens();
 
+// Create popup element
+const popup = document.createElement('div');
+
+// Apply styles to the popup
+popup.style.position = 'fixed';
+popup.style.right = '10px'; // Adjust this value to position the popup to the left of the chat button
+popup.style.bottom = '100px'; // Adjust this value to position the popup vertically above the chat button
+popup.style.minWidth = '200px';
+popup.style.maxWidth = '400px'; // Set a limit on the horizontal scaling
+popup.style.maxHeight = '100px'; // Set a limit on the vertical scaling
+popup.style.padding = '10px 20px';
+popup.style.borderRadius = '30px';
+popup.style.backgroundColor = 'white';
+popup.style.color = 'black';
+popup.style.display = 'flex';
+popup.style.alignItems = 'center';
+popup.style.justifyContent = 'space-between';
+popup.style.boxShadow = '0 10px 20px 0 rgba(0, 0, 0, 0.3)'; // More pronounced shadow
+popup.style.zIndex = 999999998;
+popup.style.opacity = 0;
+popup.style.visibility = 'hidden';
+popup.style.transition = 'all .5s ease-in-out';
+popup.style.fontFamily = 'Roboto, sans-serif'; // Use the imported font
+popup.style.border = '1px solid #ddd'; // Add a border
+popup.style.transform = 'scale(0)'; // Start from a scaled down state
+
+
+// Add emoji, text, and close button to the popup
+popup.innerHTML = `
+    <span id="popup-text" style="margin: 10px 10px;"></span>
+
+  <button id="popup-close-button" style="background: none; border: none; cursor: pointer; position: absolute; top: 2px; right: 1px;">
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" id="close" width="20" height="20">
+      <path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10S17.5,2,12,2z M15.7,14.3c0.4,0.4,0.4,1,0,1.4c-0.4,0.4-1,0.4-1.4,0
+L12,13.4l-2.3,2.3c-0.4,0.4-1,0.4-1.4,0c-0.4-0.4-0.4-1,0-1.4l2.3-2.3L8.3,9.7c-0.4-0.4-0.4-1,0-1.4c0.4-0.4,1-0.4,1.4,0l2.3,2.3
+l2.3-2.3c0.4-0.4,1-0.4,1.4,0c0.4,0.4,0.4,1,0,1.4L13.4,12L15.7,14.3z" fill="black"></path>
+    </svg>
+  </button>
+`;
+
+
+function showPopup() {
+
+  if (!arr[7]) { //empty string return
+    return;
+  }
+  // Get the close button
+  const closeButton = document.getElementById('popup-close-button');
+  closeButton.style.opacity = 0;
+
+  // Show the close button when the popup is hovered over
+  popup.addEventListener('mouseenter', () => {
+    closeButton.style.opacity = 1;
+  });
+
+  // Hide the close button when the mouse leaves the popup
+  popup.addEventListener('mouseleave', () => {
+    closeButton.style.opacity = 0;
+  });
+
+  // Hide the popup when the close button is clicked
+  closeButton.addEventListener('click', () => {
+    popup.style.opacity = 0;
+    popup.style.visibility = 'hidden';
+  });
+
+  setTimeout(() => {
+    popup.style.opacity = 1;
+    popup.style.visibility = 'visible';
+    popup.style.transform = 'scale(1)'; // Scale up when showing the popup
+  }, 3000); // Show the popup after 3 seconds
+}
+
 const scriptTag = document.currentScript
 const urlBase = "https://arm.chatshape.com/"
 const headers = {'Content-Type':'application/json'}
@@ -141,6 +219,9 @@ function init() {
     ></iframe>`
 
     document.body.appendChild(chat)
+    // Add the popup to the body
+    document.body.appendChild(popup);
+    
     const getColor = async () => {
       const response = await fetch(urlBase + "getInit", {
           headers: headers,
@@ -148,7 +229,7 @@ function init() {
           body: JSON.stringify({"name": botName, "uuid" : botID}),
       });
       const string = await response.json();
-      const arr = string === "" ? [] : string;
+      arr = string === "" ? [] : string;
       chatButton.style.backgroundColor = arr[2]
       const isLeftSide = (arr[3]);
       if (isLeftSide) {
@@ -163,9 +244,18 @@ function init() {
         chat.style.left = 'unset'
       }
       document.body.appendChild(chatButton)
+    
+      // Update the popup text
+      const popupText = document.getElementById('popup-text');
+      popupText.textContent = arr[7] ? arr[7] : '';
+      // Show the popup only if arr[7] is not an empty string
+      if (arr[7]) {
+        showPopup();
+      }
     }
       
     getColor()
+    adjustForSmallScreens()
 }
 if (document.readyState === 'complete') {
     init();
