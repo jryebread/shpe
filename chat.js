@@ -160,7 +160,7 @@ popup.innerHTML = `
     <span id="popup-text" style="margin: 10px 10px;"></span>
 
   <button id="popup-close-button" style="background: none; border: none; cursor: pointer; position: absolute; top: 2px; right: 1px;">
-    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" id="close" width="20" height="20">
+    <svg xmlns="https://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" id="close" width="20" height="20">
       <path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10S17.5,2,12,2z M15.7,14.3c0.4,0.4,0.4,1,0,1.4c-0.4,0.4-1,0.4-1.4,0
 L12,13.4l-2.3,2.3c-0.4,0.4-1,0.4-1.4,0c-0.4-0.4-0.4-1,0-1.4l2.3-2.3L8.3,9.7c-0.4-0.4-0.4-1,0-1.4c0.4-0.4,1-0.4,1.4,0l2.3,2.3
 l2.3-2.3c0.4-0.4,1-0.4,1.4,0c0.4,0.4,0.4,1,0,1.4L13.4,12L15.7,14.3z" fill="black"></path>
@@ -209,6 +209,24 @@ let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
 console.log("botID: ", botID)
 console.log("botName: ", botName)
+// Detect mobile
+const isUserUsingMobile = () => {
+
+  // User agent string method
+  let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  // Screen resolution method
+  if (!isMobile) {
+      let screenWidth = window.screen.width;
+      let screenHeight = window.screen.height;
+      isMobile = (screenWidth < 768 || screenHeight < 768);
+  }
+  
+  return isMobile
+  }
+const isMobile = isUserUsingMobile();
+console.log(innerWidth)
+console.log(isMobile)
 function init() {
 
     chat.innerHTML = `<iframe
@@ -221,7 +239,7 @@ function init() {
     document.body.appendChild(chat)
     // Add the popup to the body
     document.body.appendChild(popup);
-    
+
     const getColor = async () => {
       const response = await fetch(urlBase + "getInit", {
           headers: headers,
@@ -237,6 +255,15 @@ function init() {
         chatButton.style.right = 'unset'
         chat.style.left = '20px';
         chat.style.right = 'unset'
+        popup.style.right = 'unset';
+        popup.style.left = '10px';
+      } else if (isMobile) {
+          // full screen
+          chat.style.position = 'fixed';
+          chatButton.style.right = '20px'
+          chatButton.style.left = 'unset'
+          chat.style.width = '100%';
+          chat.style.height = '90%';
       } else {
         chatButton.style.right = '20px'
         chatButton.style.left = 'unset'
