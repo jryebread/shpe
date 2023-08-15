@@ -101,12 +101,12 @@ chatButton.addEventListener('click', () => {
   }
 })
 
-function adjustForSmallScreens() {
-  const smallScreenHeight = 600;
-  if (window.innerHeight < smallScreenHeight) {
-      chat.style.height = '85vh';
-  }
-}
+// function adjustForSmallScreens() {
+//   const smallScreenHeight = 600;
+//   if (window.innerHeight < smallScreenHeight) {
+//       chat.style.height = '85vh';
+//   }
+// }
 
 
 const chat = document.createElement('div')
@@ -125,7 +125,7 @@ chat.style.borderRadius = '10px'
 chat.style.zIndex = 999999999
 chat.style.overflow = 'hidden'
 
-adjustForSmallScreens();
+// adjustForSmallScreens();
 
 // Create popup element
 const popup = document.createElement('div');
@@ -277,7 +277,7 @@ function init() {
     }
       
     getColor()
-    adjustForSmallScreens()
+    // adjustForSmallScreens()
 }
 if (document.readyState === 'complete') {
     init();
@@ -286,20 +286,20 @@ if (document.readyState === 'complete') {
 }
 
 // Create a condition that targets viewports at least 768px wide
-const mediaQuery = window.matchMedia('(min-width: 550px)')
+// const mediaQuery = window.matchMedia('(min-width: 550px)')
 
-function handleSizeChange(e) {
-  // Check if the media query is true
-  if (e.matches) {
-    chat.style.height = '600px'
-    chat.style.width = '450px'
-  }
-}
+// function handleSizeChange(e) {
+//   // Check if the media query is true
+//   if (e.matches) {
+//     chat.style.height = '600px'
+//     chat.style.width = '450px'
+//   }
+// }
 
-// Register event listener
-mediaQuery.addEventListener('change', handleSizeChange)
+// // Register event listener
+// mediaQuery.addEventListener('change', handleSizeChange)
 
-// Initial check
-handleSizeChange(mediaQuery)
+// // Initial check
+// handleSizeChange(mediaQuery)
 
 })(); // End of IIFE
