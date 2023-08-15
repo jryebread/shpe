@@ -1,4 +1,4 @@
-
+(function() {
 const SIZE = 60 // size of the chat button in pixels
 const BTN_RAD = SIZE / 2 // radius of the chat button in pixels
 const BG_CHAT = 'purple' // background color of the chat button
@@ -124,7 +124,6 @@ chat.style.display = 'none'
 chat.style.borderRadius = '10px'
 chat.style.zIndex = 999999999
 chat.style.overflow = 'hidden'
-window.addEventListener('resize', adjustForSmallScreens);
 
 adjustForSmallScreens();
 
@@ -207,8 +206,6 @@ const headers = {'Content-Type':'application/json'}
 console.log(scriptTag);
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
-console.log("botID: ", botID)
-console.log("botName: ", botName)
 // Detect mobile
 const isUserUsingMobile = () => {
 
@@ -225,8 +222,6 @@ const isUserUsingMobile = () => {
   return isMobile
   }
 const isMobile = isUserUsingMobile();
-console.log(innerWidth)
-console.log(isMobile)
 function init() {
 
     chat.innerHTML = `<iframe
@@ -307,3 +302,4 @@ mediaQuery.addEventListener('change', handleSizeChange)
 // Initial check
 handleSizeChange(mediaQuery)
 
+})(); // End of IIFE
