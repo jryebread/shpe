@@ -88,6 +88,7 @@ chatButton.addEventListener('click', () => {
   // Remove the red notification on first click
   if (firstClick) {
     notificationBubble.style.display = 'none'
+    localStorage.setItem('popupClosed', 'true'); // Set flag in localStorage
     firstClick = false
   }
 
@@ -101,12 +102,12 @@ chatButton.addEventListener('click', () => {
   }
 })
 
-// function adjustForSmallScreens() {
-//   const smallScreenHeight = 600;
-//   if (window.innerHeight < smallScreenHeight) {
-//       chat.style.height = '85vh';
-//   }
-// }
+function adjustForSmallScreens() {
+  const smallScreenHeight = 600;
+  if (window.innerHeight < smallScreenHeight) {
+      chat.style.height = '85vh';
+  }
+}
 
 
 const chat = document.createElement('div')
@@ -125,7 +126,7 @@ chat.style.borderRadius = '10px'
 chat.style.zIndex = 999999999
 chat.style.overflow = 'hidden'
 
-// adjustForSmallScreens();
+adjustForSmallScreens();
 
 // Create popup element
 const popup = document.createElement('div');
@@ -170,7 +171,7 @@ l2.3-2.3c0.4-0.4,1-0.4,1.4,0c0.4,0.4,0.4,1,0,1.4L13.4,12L15.7,14.3z" fill="black
 
 function showPopup() {
 
-  if (!arr[7]) { //empty string return
+  if (!arr[7] || localStorage.getItem('popupClosed') === 'true') { //empty string return
     return;
   }
   // Get the close button
@@ -191,6 +192,7 @@ function showPopup() {
   closeButton.addEventListener('click', () => {
     popup.style.opacity = 0;
     popup.style.visibility = 'hidden';
+    localStorage.setItem('popupClosed', 'true'); // Set flag in localStorage
   });
 
   setTimeout(() => {
@@ -206,22 +208,9 @@ const headers = {'Content-Type':'application/json'}
 console.log(scriptTag);
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
-// Detect mobile
-const isUserUsingMobile = () => {
-
-  // User agent string method
-  let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
-  // Screen resolution method
-  if (!isMobile) {
-      let screenWidth = window.screen.width;
-      let screenHeight = window.screen.height;
-      isMobile = (screenWidth < 768 || screenHeight < 768);
-  }
-  
-  return isMobile
-  }
-const isMobile = isUserUsingMobile();
+// Detect mobile  
+var isMobile = Math.min(window.screen.width, window.screen.height) < 768 || navigator.userAgent.indexOf("Mobi") > -1;
+console.log("isMobile: ", isMobile)
 function init() {
 
     chat.innerHTML = `<iframe
@@ -277,7 +266,7 @@ function init() {
     }
       
     getColor()
-    // adjustForSmallScreens()
+    adjustForSmallScreens()
 }
 if (document.readyState === 'complete') {
     init();
@@ -286,20 +275,20 @@ if (document.readyState === 'complete') {
 }
 
 // Create a condition that targets viewports at least 768px wide
-// const mediaQuery = window.matchMedia('(min-width: 550px)')
+const mediaQuery = window.matchMedia('(min-width: 550px)')
 
-// function handleSizeChange(e) {
-//   // Check if the media query is true
-//   if (e.matches) {
-//     chat.style.height = '600px'
-//     chat.style.width = '450px'
-//   }
-// }
+function handleSizeChange(e) {
+  // Check if the media query is true
+  if (e.matches) {
+    chat.style.height = '600px'
+    chat.style.width = '450px'
+  }
+}
 
-// // Register event listener
-// mediaQuery.addEventListener('change', handleSizeChange)
+// Register event listener
+mediaQuery.addEventListener('change', handleSizeChange)
 
-// // Initial check
-// handleSizeChange(mediaQuery)
+// Initial check
+handleSizeChange(mediaQuery)
 
 })(); // End of IIFE
