@@ -209,7 +209,7 @@ console.log(scriptTag);
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
 let hideRed = document.currentScript.getAttribute('hideRed'); // 1
-if (hideRed == "true") {
+if (hideRed == "true" || localStorage.getItem('popupClosed') === 'true') {
   notificationBubble.style.visibility = 'hidden'
 }
 // Detect mobile  
