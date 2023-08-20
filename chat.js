@@ -208,6 +208,10 @@ const headers = {'Content-Type':'application/json'}
 console.log(scriptTag);
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
+let hideRed = document.currentScript.getAttribute('hideRed'); // 1
+if (hideRed == "true") {
+  notificationBubble.style.visibility = 'hidden'
+}
 // Detect mobile  
 var isMobile = Math.min(window.screen.width, window.screen.height) < 768 || navigator.userAgent.indexOf("Mobi") > -1;
 console.log("isMobile: ", isMobile)
