@@ -278,6 +278,9 @@ if (document.readyState === 'complete') {
     window.addEventListener('load', init);
 }
 
+console.log("orders: ", window.chatshapeOrders)
+console.log(window.chatshapeShopifyCustomer)
+
 // Create a condition that targets viewports at least 768px wide
 const mediaQuery = window.matchMedia('(min-width: 550px)')
 
