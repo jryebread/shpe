@@ -215,6 +215,9 @@ if (hideRed == "true" || localStorage.getItem('popupClosed') === 'true') {
 // Detect mobile  
 var isMobile = Math.min(window.screen.width, window.screen.height) < 768 || navigator.userAgent.indexOf("Mobi") > -1;
 console.log("isMobile: ", isMobile)
+
+console.log("orders: ", window.chatshapeOrders)
+console.log(window.chatshapeShopifyCustomer)
 function init() {
 
     chat.innerHTML = `<iframe
@@ -277,9 +280,6 @@ if (document.readyState === 'complete') {
 } else {
     window.addEventListener('load', init);
 }
-
-console.log("orders: ", window.chatshapeOrders)
-console.log(window.chatshapeShopifyCustomer)
 
 // Create a condition that targets viewports at least 768px wide
 const mediaQuery = window.matchMedia('(min-width: 550px)')
