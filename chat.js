@@ -255,9 +255,6 @@ console.log("isMobile: ", isMobile)
 console.log("orders: ", window.chatshapeOrders)
 console.log(window.chatshapeShopifyCustomer)
 function init() {
-    chatHeader.appendChild(chatCloseButton);
-
-    chat.prepend(chatHeader);
 
     chatBody.innerHTML = `<iframe
     src="https://www.chatshape.com/chatbot-i/${scriptTag.id}"
@@ -296,7 +293,7 @@ function init() {
           chatButton.style.right = '20px'
           chatButton.style.left = 'unset'
           chat.style.width = '100%';
-          chat.style.height = '90%';
+          chat.style.height = '87%';
       } else {
         chatButton.style.right = '20px'
         chatButton.style.left = 'unset'
@@ -304,7 +301,9 @@ function init() {
         chat.style.left = 'unset'
       }
       document.body.appendChild(chatButton)
+      chatHeader.appendChild(chatCloseButton);
 
+      chat.prepend(chatHeader);
       // Update the popup text
       const popupText = document.getElementById('popup-text');
       popupText.textContent = arr[7] ? arr[7] : '';
