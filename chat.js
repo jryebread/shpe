@@ -128,6 +128,42 @@ chat.style.overflow = 'hidden'
 
 adjustForSmallScreens();
 
+const chatHeader = document.createElement('div');
+chatHeader.style.display = 'flex';
+chatHeader.style.justifyContent = 'flex-end';
+chatHeader.style.alignItems = 'center';
+chatHeader.style.padding = '5px';
+chatHeader.style.backgroundColor = '#f5f5f5';
+chatHeader.style.boxShadow = '0px 1px 10px rgba(0, 0, 0, 0.1)';
+chatHeader.style.zIndex = 99999999999999999999;
+
+const chatCloseButton = document.createElement('div');
+chatCloseButton.id = "chatCloseButton"
+chatCloseButton.style.cursor = 'pointer';
+chatCloseButton.style.transition = 'all .2s ease-in-out';
+chatCloseButton.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" width="18" height="18">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+</svg>
+`;
+
+chatCloseButton.addEventListener('mouseenter', (event) => {
+  chatCloseButton.style.transform = 'scale(1.2)';
+});
+chatCloseButton.addEventListener('mouseleave', (event) => {
+  chatCloseButton.style.transform = 'scale(1)';
+});
+
+chatCloseButton.addEventListener('click', () => {
+  chat.style.display = 'none';
+  chatButtonIcon.innerHTML = chatButtonLogo;
+});
+
+const chatBody = document.createElement('div');
+chatBody.style.width = '100%';
+chatBody.style.height = 'calc(100% - 10px)'; // Adjust this value based on the height of the header
+chatBody.style.overflow = 'auto';
+
 // Create popup element
 const popup = document.createElement('div');
 
@@ -219,13 +255,19 @@ console.log("isMobile: ", isMobile)
 console.log("orders: ", window.chatshapeOrders)
 console.log(window.chatshapeShopifyCustomer)
 function init() {
+    chatHeader.appendChild(chatCloseButton);
 
-    chat.innerHTML = `<iframe
+    chat.prepend(chatHeader);
+
+    chatBody.innerHTML = `<iframe
     src="https://www.chatshape.com/chatbot-i/${scriptTag.id}"
     width="100%"
     height="100%"
     frameborder="0"
-    ></iframe>`
+    ></iframe>`;
+
+    chat.appendChild(chatBody);
+
 
     document.body.appendChild(chat)
     // Add the popup to the body
@@ -262,7 +304,7 @@ function init() {
         chat.style.left = 'unset'
       }
       document.body.appendChild(chatButton)
-    
+
       // Update the popup text
       const popupText = document.getElementById('popup-text');
       popupText.textContent = arr[7] ? arr[7] : '';
