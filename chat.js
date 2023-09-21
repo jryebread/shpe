@@ -242,6 +242,11 @@ const scriptTag = document.currentScript
 const urlBase = "https://arm.chatshape.com/"
 const headers = {'Content-Type':'application/json'}
 console.log(scriptTag);
+
+// Clean scriptTag.id of spaces
+scriptTag.id = scriptTag.id.replace(/\s/g, '');
+console.log(scriptTag);
+
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
 let hideRed = document.currentScript.getAttribute('hideRed'); // 1
