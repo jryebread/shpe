@@ -249,10 +249,9 @@ console.log(scriptTag);
 
 let botName = scriptTag.id.substring(0, scriptTag.id.indexOf("-")).trim();
 let botID = scriptTag.id.replace(/.*?-/, "").trim();
-let hideRed = "true"; // 1
-if (hideRed == "true" || localStorage.getItem('popupClosed') === 'true') {
-  notificationBubble.style.visibility = 'hidden'
-}
+// if (hideRed == "true" || localStorage.getItem('popupClosed') === 'true') {
+notificationBubble.style.visibility = 'hidden'
+
 // Detect mobile  
 var isMobile = Math.min(window.screen.width, window.screen.height) < 768 || navigator.userAgent.indexOf("Mobi") > -1;
 console.log("isMobile: ", isMobile)
