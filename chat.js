@@ -1,7 +1,52 @@
 (function() {
-const SIZE = 60 // size of the chat button in pixels
-const BTN_RAD = SIZE / 2 // radius of the chat button in pixels
+const BASE_SIZE = 60; // Base size of the chat button in pixels
+const MOBILE_SCALE = 0.5; // Scale factor for mobile devices
+let SIZE = BASE_SIZE; // Will be adjusted for mobile
+let BTN_RAD = SIZE / 2; // Will be adjusted for mobile
 const BG_CHAT = 'purple' // background color of the chat button
+
+function adjustForMobileScreens() {
+    const mobileBreakpoint = 768; // You can adjust this value as needed
+    if (window.innerWidth < mobileBreakpoint) {
+      SIZE = BASE_SIZE * MOBILE_SCALE;
+      BTN_RAD = SIZE / 2;
+      chatButton.style.width = SIZE + 'px';
+      chatButton.style.height = SIZE + 'px';
+      chatButton.style.borderRadius = BTN_RAD + 'px';
+      
+      // Adjust the chat window size for mobile
+      chat.style.width = '100%';
+      chat.style.height = '80vh';
+      chat.style.bottom = '0';
+      chat.style.right = '0';
+      chat.style.left = '0';
+      
+      // Adjust the position of the chat button for mobile
+      chatButton.style.bottom = '10px';
+      chatButton.style.right = '10px';
+    } else {
+      // Reset to default sizes for larger screens
+      SIZE = BASE_SIZE;
+      BTN_RAD = SIZE / 2;
+      chatButton.style.width = SIZE + 'px';
+      chatButton.style.height = SIZE + 'px';
+      chatButton.style.borderRadius = BTN_RAD + 'px';
+      
+      // Reset chat window size for larger screens
+      chat.style.width = '450px';
+      chat.style.height = '600px';
+      chat.style.bottom = '80px';
+      
+      // Reset the position of the chat button for larger screens
+      chatButton.style.bottom = '20px';
+      chatButton.style.right = '20px';
+    }
+  }
+
+// Call this function on load and on window resize
+window.addEventListener('load', adjustForMobileScreens);
+window.addEventListener('resize', adjustForMobileScreens);
+
 let arr;
 const chatButtonLogo = `
 <svg width="80" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
