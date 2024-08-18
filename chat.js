@@ -191,6 +191,7 @@ popup.style.border = '1px solid #ddd'; // Add a border
 popup.style.transform = 'scale(0)'; // Start from a scaled down state
 
 
+
 // Add emoji, text, and close button to the popup
 popup.innerHTML = `
     <span id="popup-text" style="margin: 10px 10px;"></span>
@@ -212,7 +213,7 @@ function showPopup() {
   }
   // Get the close button
   const closeButton = document.getElementById('popup-close-button');
-  closeButton.style.opacity = 0;
+  closeButton.style.opacity = 1;
 
   // Show the close button when the popup is hovered over
   popup.addEventListener('mouseenter', () => {
@@ -221,7 +222,7 @@ function showPopup() {
 
   // Hide the close button when the mouse leaves the popup
   popup.addEventListener('mouseleave', () => {
-    closeButton.style.opacity = 0;
+    closeButton.style.opacity = 1;
   });
 
   // Hide the popup when the close button is clicked
