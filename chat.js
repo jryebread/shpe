@@ -215,15 +215,6 @@ function showPopup() {
   const closeButton = document.getElementById('popup-close-button');
   closeButton.style.opacity = 1;
 
-  // Show the close button when the popup is hovered over
-  popup.addEventListener('mouseenter', () => {
-    closeButton.style.opacity = 1;
-  });
-
-  // Hide the close button when the mouse leaves the popup
-  popup.addEventListener('mouseleave', () => {
-    closeButton.style.opacity = 1;
-  });
 
   // Hide the popup when the close button is clicked
   closeButton.addEventListener('click', () => {
